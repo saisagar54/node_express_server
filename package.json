@@ -5,11 +5,13 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node server.js",
+    "debug": "DEBUG=myapp node ./bin/www"
   },
   "author": "Saisagar",
   "license": "ISC",
   "dependencies": {
+    "debug": "^4.3.4",
     "express": "^4.17.3"
   }
 }

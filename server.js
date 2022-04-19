@@ -14,7 +14,7 @@ server.listen(port);*/
 //paste it
 const app = require("./app");
 const http = require("http");
-var debug = require('debug');
+var debug = require('debug')('notes:server');;
 
 
 //this function is to make sure that when we receive port from environment variable it is a valid number
@@ -56,10 +56,10 @@ const onError = error => {
 };
 
 //This function is just showing what portour server is listening to
-const onListening = () => {
+ const onListening = () => {
   const addr = server.address();
   const bind = typeof port === "string" ? "pipe " + port : "port " + port;
-  debug("Listening on  Saisagar" + bind);
+  console.log("Listening on Saisagar" + bind);
   console.log('Saisagar Ranmale');
 };
 
