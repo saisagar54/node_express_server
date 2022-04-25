@@ -14,7 +14,7 @@ server.listen(port);*/
 //paste it
 const app = require("./app");
 const http = require("http");
-var debug = require('debug')('notes:server');;
+
 
 
 //this function is to make sure that when we receive port from environment variable it is a valid number
@@ -60,7 +60,7 @@ const onError = error => {
   const addr = server.address();
   const bind = typeof port === "string" ? "pipe " + port : "port " + port;
   console.log("Listening on Saisagar" + bind);
-  console.log('Saisagar Ranmale');
+  
 };
 
 const port = normalizePort(process.env.PORT || "3000");
