@@ -1,7 +1,22 @@
 const express = require("express");
 const bodyParser = require('body-parser');
+const Post = require('./models/post');
+const mongoose = require('mongoose');
 //Create a express app with following command
 const app = express();
+mongoose.connect('mongodb://localhost:27017/NoteBook').
+  catch(error => handleError(error));
+
+async function run() {
+    try {
+            await mongoose.connect('mongodb://localhost:27017/NoteBook');
+        } catch (error) {
+              handleError(error);
+            }
+}
+
+run();
+
 app.use(bodyParser.json());
 
 /*express is a chain of middlewares, that we apply to the incoming requests. Each part of the funnel can do something with the request
@@ -29,29 +44,49 @@ app.use((req, res, next)=>{
     next();
 });
 app.get('/api/notes',(req, res)=>{
-    const notes = [
+   /* const notes = [
         {
             title: "First Post from server",
             subject:"first Sub",
             content: "First post content from server"
         }
        
-    ]
+    ]*/
     //res.send("Hello from improved server!");
-    res.status(200).json({
+    Post.find().then(documents => {
+       res.status(200).json({
         message: "Notes received successfully",
-        notes: notes
+        notes: documents
     });
+}); 
 });
 
 app.post('/api/notes',(req, res)=>{
-    const note = req.body;
-    console.log('*******Note Received', note);
+    //const note = req.body;
+    const post = new Post({
+        title: req.body.title,
+        subject: req.body.subject,
+        content: req.body.content
+    });
+    console.log('*******Note Received', post);
+    /*post.save();
     res.status(201).json({
         message:"Notes stored successfully"
+    });*/
+
+    post.save().then(createdPost => {
+        res.status(201).json({
+          message: "Note added successfully",
+          noteId: createdPost._id
+        });
     });
 });
 
+
+app.delete('/api/notes/:id', (req, res)=>{
+    console.log("Note deleted Successfully");
+    res.status(200).json({message: "Note deleted successfully!"})
+});
 
 
 // we want to use this app in server. to do that we need export it
